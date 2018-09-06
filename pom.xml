@@ -17,18 +17,20 @@
     <java.lang.level>10</java.lang.level>
   </properties>
 
+
   <distributionManagement>
     <snapshotRepository>
-      <name>repo.crowdcode.io</name>
-      <id>repo.crowdcode.io</id>
-      <url>https://repo.crowdcode.io/repository/snapshots/</url>
+      <name>spie.crowdcode.io</name>
+      <id>spie.crowdcode.io</id>
+      <url>https://spie.crowdcode.io/nexus3/repository/snapshots</url>
     </snapshotRepository>
     <repository>
-      <name>repo.crowdcode.io</name>
-      <id>repo.crowdcode.io</id>
-      <url>https://repo.crowdcode.io/repository/releases/</url>
+      <name>spie.crowdcode.io</name>
+      <id>spie.crowdcode.io</id>
+      <url>https://spie.crowdcode.io/nexus3/repository/releases</url>
     </repository>
   </distributionManagement>
+
 
   <dependencies>
     <!-- https://mvnrepository.com/artifact/org.apache.jackrabbit/jackrabbit-webdav -->
@@ -67,6 +69,28 @@
 
     </plugins>
   </build>
+	<profiles>
+        <profile>
+            <id>sign-jar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>
