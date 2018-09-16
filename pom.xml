@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.crowdcode.webdav</groupId>
-  <artifactId>simple-webdav-client</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <groupId>io.crowdcode.webdav</groupId>
+    <artifactId>simple-webdav-client</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-  <name>Simple WebDAV Client</name>
-  <description>Simple WebDAV abstraction making java use of Jackrabbit Lib more easy</description>
+    <name>Simple WebDAV Client</name>
+    <description>Simple WebDAV abstraction making java use of Jackrabbit Lib more easy</description>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.lang.level>10</java.lang.level>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.lang.level>10</java.lang.level>
+    </properties>
 
 
     <dependencies>
@@ -37,25 +37,24 @@
         </dependency>
     </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <parameters>true</parameters>
-          <source>${java.lang.level}</source>
-          <target>${java.lang.level}</target>
-        </configuration>
-      </plugin>
-
-    </plugins>
-  </build>
-	<profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <parameters>true</parameters>
+                    <source>${java.lang.level}</source>
+                    <target>${java.lang.level}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
         <profile>
             <id>sign-jar</id>
             <build>
