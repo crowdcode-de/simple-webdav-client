@@ -18,38 +18,24 @@
   </properties>
 
 
-  <distributionManagement>
-    <snapshotRepository>
-      <name>spie.crowdcode.io</name>
-      <id>spie.crowdcode.io</id>
-      <url>https://spie.crowdcode.io/nexus3/repository/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <name>spie.crowdcode.io</name>
-      <id>spie.crowdcode.io</id>
-      <url>https://spie.crowdcode.io/nexus3/repository/releases</url>
-    </repository>
-  </distributionManagement>
-
-
-  <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.apache.jackrabbit/jackrabbit-webdav -->
-    <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-webdav</artifactId>
-      <version>2.17.5</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>3.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20160810</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.jackrabbit/jackrabbit-webdav -->
+        <dependency>
+            <groupId>org.apache.jackrabbit</groupId>
+            <artifactId>jackrabbit-webdav</artifactId>
+            <version>2.17.5</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160810</version>
+        </dependency>
+    </dependencies>
 
   <build>
     <plugins>
