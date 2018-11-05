@@ -158,6 +158,8 @@ public class JRWebDavClient {
         set.add(DavPropertyName.create(DavConstants.PROPERTY_SOURCE));
         set.add(DavPropertyName.create(DavConstants.PROPERTY_GETCONTENTLENGTH));
         set.add(DavPropertyName.create(DavConstants.PROPERTY_GETCONTENTTYPE));
+        set.add(DavPropertyName.create(DavConstants.PROPERTY_CREATIONDATE));
+        set.add(DavPropertyName.create(DavConstants.PROPERTY_GETLASTMODIFIED));
 
         String uri = baseUri.toString() + ("/" + resource).replace("//", "/");
         URI baseURI = URI.create(uri);

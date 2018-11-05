@@ -21,6 +21,14 @@ public class WebDavFile implements WebDavElement {
         this.propertiesPresent = propertiesPresent;
     }
 
+    public String getCreated(){
+        return propertiesPresent.get(DavConstants.PROPERTY_CREATIONDATE).getValue().toString();
+    }
+
+    public String getLastModified(){
+        return  propertiesPresent.get(DavConstants.PROPERTY_GETLASTMODIFIED).getValue().toString();
+    }
+
     public String getContentType() {
         return propertiesPresent.get(DavConstants.PROPERTY_GETCONTENTTYPE).getValue().toString();
     }
