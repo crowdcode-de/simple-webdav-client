@@ -5,7 +5,7 @@
 
     <groupId>io.crowdcode.webdav</groupId>
     <artifactId>simple-webdav-client</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Simple WebDAV Client</name>
@@ -17,7 +17,6 @@
         <java.lang.level>10</java.lang.level>
         <httpclient.version>4.5.9</httpclient.version>
     </properties>
-
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.jackrabbit/jackrabbit-webdav -->
