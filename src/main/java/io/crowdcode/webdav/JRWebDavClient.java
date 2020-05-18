@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -195,7 +196,7 @@ public class JRWebDavClient {
      *
      * @param resource e.g. the subdirectory relative to the base URL
      */
-    public void mkdir(String resource) throws IOException {
+    public WebDavDirectory mkdir(String resource) throws IOException, DavException {
         String uri = baseUri.toString() + ("/" + resource).replace("//", "/");
         HttpMkcol mkcol = new HttpMkcol(uri);
         HttpResponse resp = this.client.execute(mkcol, this.context);
@@ -204,6 +205,15 @@ public class JRWebDavClient {
             throw new DavAccessFailedException(
                     "Access to " + mkcol.toString() + " failed with a non 2xx status. Status was " + status);
         }
+        WebDavLsResult webDavLsResult = ls(resource);
+        List<WebDavDirectory> webDavDirectories = webDavLsResult.getDirectories();
+        if (webDavDirectories.isEmpty()){
+            throw new DavAccessFailedException(
+                    "Directory " + mkcol.toString() + " will not be found.");
+        }
+        return webDavDirectories.get(0);
+
+
     }
 
     /**
@@ -211,7 +221,7 @@ public class JRWebDavClient {
      *
      * @param fileName the file name relative to the base URL
      */
-    public void put(byte[] content, String fileName) throws IOException {
+    public WebDavFile put(byte[] content, String fileName) throws IOException, DavException {
         String uri = baseUri.toString() + ("/" + fileName).replace("//", "/");
         HttpPut httpPut = new HttpPut(uri);
         ByteArrayEntity entity = new ByteArrayEntity(content);
@@ -222,6 +232,13 @@ public class JRWebDavClient {
             throw new DavAccessFailedException(
                     "Access to " + httpPut.toString() + " failed with a non 2xx status. Status was " + status);
         }
+        WebDavLsResult webDavLsResult = ls(fileName);
+        List<WebDavFile> webDavFileList = webDavLsResult.getFiles();
+        if (webDavFileList.isEmpty()){
+            throw new DavAccessFailedException(
+                    "No File " + httpPut.toString() + " will be found.");
+        }
+        return webDavFileList.get(0);
     }
 
     /**
