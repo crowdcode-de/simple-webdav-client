@@ -195,6 +195,7 @@ public class JRWebDavClient {
      * create a directory
      *
      * @param resource e.g. the subdirectory relative to the base URL
+     * @return directory containing the properties
      */
     public WebDavDirectory mkdir(String resource) throws IOException, DavException {
         String uri = baseUri.toString() + ("/" + resource).replace("//", "/");
@@ -220,6 +221,7 @@ public class JRWebDavClient {
      * put data to a directory
      *
      * @param fileName the file name relative to the base URL
+     * @return file containing the properties
      */
     public WebDavFile put(byte[] content, String fileName) throws IOException, DavException {
         String uri = baseUri.toString() + ("/" + fileName).replace("//", "/");
