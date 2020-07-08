@@ -1,26 +1,50 @@
 package io.crowdcode.webdav.data;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.webdav.property.DavPropertySet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
+ * @author Marcus Nörder-Tuitje (CROWDCODE)
+ * @author Ingo Düppe (CROWDCODE)
+ *
  * Inputstream to a webdav file resource
  */
 public class WebDavFileInputStream extends InputStream implements WebDavElement {
 
+    private static final Logger log = LoggerFactory.getLogger(WebDavFileInputStream.class);
+
     private final DavPropertySet propertiesPresent;
-    private final InputStream inputstream;
-    private final File tmpfile;
+    private final InputStream inputStream;
+    private final File tmpFile;
 
-
-    public WebDavFileInputStream(DavPropertySet propertiesPresent, InputStream stream, File tmpfile) {
+    public WebDavFileInputStream(DavPropertySet propertiesPresent, InputStream inputStream, File tmpFile) {
         this.propertiesPresent = propertiesPresent;
-        inputstream = stream;
-        this.tmpfile = tmpfile;
+        this.tmpFile = tmpFile;
+        this.inputStream = loadingInputStreamToTmpFile( inputStream, tmpFile);
+    }
+
+    private InputStream loadingInputStreamToTmpFile(InputStream inputStream, File tmpFile) {
+        try (OutputStream outputStream = new FileOutputStream(tmpFile)){
+            IOUtils.copy(inputStream, outputStream);
+        } catch (IOException e) {
+            log.error("Couldn't load file {} due to io exception.", tmpFile, e);
+        }
+        try {
+            return new FileInputStream(tmpFile);
+        } catch (FileNotFoundException e) {
+            log.error("Cannot open input stream of local file {}", tmpFile , e);
+        }
+        return null;
     }
 
     @Override
@@ -30,44 +54,44 @@ public class WebDavFileInputStream extends InputStream implements WebDavElement 
 
     @Override
     public int read() throws IOException {
-        return inputstream.read();
+        return inputStream.read();
     }
 
     @Override
     public int read(byte[] b) throws IOException {
-        return inputstream.read(b);
+        return inputStream.read(b);
     }
 
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
-        return inputstream.read(b, off, len);
+        return inputStream.read(b, off, len);
     }
 
     @Override
     public byte[] readAllBytes() throws IOException {
-        return inputstream.readAllBytes();
+        return inputStream.readAllBytes();
     }
 
     @Override
     public int readNBytes(byte[] b, int off, int len) throws IOException {
-        return inputstream.readNBytes(b, off, len);
+        return inputStream.readNBytes(b, off, len);
     }
 
     @Override
     public long skip(long n) throws IOException {
-        return inputstream.skip(n);
+        return inputStream.skip(n);
     }
 
     @Override
     public int available() throws IOException {
-        return inputstream.available();
+        return inputStream.available();
     }
 
     @Override
     public void close() throws IOException {
-        inputstream.close();
+        inputStream.close();
         try {
-            tmpfile.delete();
+            tmpFile.delete();
         } finally {
 
         }
@@ -75,21 +99,21 @@ public class WebDavFileInputStream extends InputStream implements WebDavElement 
 
     @Override
     public void mark(int readlimit) {
-        inputstream.mark(readlimit);
+        inputStream.mark(readlimit);
     }
 
     @Override
     public void reset() throws IOException {
-        inputstream.reset();
+        inputStream.reset();
     }
 
     @Override
     public boolean markSupported() {
-        return inputstream.markSupported();
+        return inputStream.markSupported();
     }
 
     @Override
     public long transferTo(OutputStream out) throws IOException {
-        return inputstream.transferTo(out);
+        return inputStream.transferTo(out);
     }
 }
