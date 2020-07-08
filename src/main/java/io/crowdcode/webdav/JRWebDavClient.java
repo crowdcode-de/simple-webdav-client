@@ -121,7 +121,6 @@ public class JRWebDavClient {
             File tmp = File.createTempFile(UUID.randomUUID().toString(), "tmp");
             tmp.deleteOnExit();
 
-            URI dest = tmp.toURI();
             URI source = file.getURI();
 
             HttpGet get = new HttpGet(source);
