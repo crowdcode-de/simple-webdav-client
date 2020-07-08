@@ -40,16 +40,18 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 /**
- * @author marcus
+ * @author Marcus Nörder-Tuitje (CROWDCODE)
+ * @author Ingo Düppe (CROWDCODE)
+ *
  * <p>
  * Very basic client class for abstraction of DAV accesses
  */
 public class JRWebDavClient {
 
     private static final Logger logger = LoggerFactory.getLogger(JRWebDavClient.class);
+
     private HttpClientContext context;
     private CloseableHttpClient client;
     private String root;
@@ -118,7 +120,8 @@ public class JRWebDavClient {
     public WebDavFileInputStream readFile(WebDavFile file) {
         WebDavFileInputStream result = null;
         try {
-            File tmp = File.createTempFile(UUID.randomUUID().toString(), "tmp");
+            File tmp = File.createTempFile(file.getName() + "-", ".tmp");
+            logger.debug("Using temporal file {}", tmp);
             tmp.deleteOnExit();
 
             URI source = file.getURI();
@@ -136,14 +139,10 @@ public class JRWebDavClient {
                 logger.error("ERROR! INSTEAD OF HTTP 200 I GOT {}", status);
                 throw new DavAccessFailedException("EXPECTED HTTP 200. GOT " + status);
             }
-
         } catch (IOException e) {
-            e.printStackTrace();
-
-        } finally {
-            return result;
+            logger.error("Error while reading file", e);
         }
-
+        return result;
     }
 
     /**
@@ -207,7 +206,7 @@ public class JRWebDavClient {
         }
         WebDavLsResult webDavLsResult = ls(resource);
         List<WebDavDirectory> webDavDirectories = webDavLsResult.getDirectories();
-        if (webDavDirectories.isEmpty()){
+        if (webDavDirectories.isEmpty()) {
             throw new DavAccessFailedException(
                     "Directory " + mkcol.toString() + " will not be found.");
         }
@@ -235,7 +234,7 @@ public class JRWebDavClient {
         }
         WebDavLsResult webDavLsResult = ls(fileName);
         List<WebDavFile> webDavFileList = webDavLsResult.getFiles();
-        if (webDavFileList.isEmpty()){
+        if (webDavFileList.isEmpty()) {
             throw new DavAccessFailedException(
                     "No File " + httpPut.toString() + " will be found.");
         }
