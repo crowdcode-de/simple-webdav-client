@@ -39,7 +39,7 @@ public class WebDavFile implements WebDavElement {
 
     public String getNameUrlEncoded() {
         try {
-            return URLEncoder.encode(getName(), StandardCharsets.UTF_8.toString());
+            return URLEncoder.encode(getName(), StandardCharsets.UTF_8.toString()).replaceAll("\\+","%20");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
