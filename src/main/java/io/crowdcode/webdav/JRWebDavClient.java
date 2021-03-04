@@ -10,6 +10,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
@@ -65,6 +66,17 @@ public class JRWebDavClient {
      * @param password - (sic)
      */
     public void init(URI uri, String username, String password) {
+        init(uri,username,password,null);
+    }
+    /**
+     * prepare the client
+     *
+     * @param uri      - base URI
+     * @param username - (sic)
+     * @param password - (sic)
+     * @param timeoutInSec - timeout in seconds
+     */
+    public void init(URI uri, String username, String password, Integer timeoutInSec) {
         this.root = uri.toASCIIString();
         if (!this.root.endsWith("/")) {
             this.root += "/";
@@ -90,7 +102,16 @@ public class JRWebDavClient {
         this.context.setCredentialsProvider(credsProvider);
         this.context.setAuthCache(authCache);
 
-        this.client = HttpClients.custom().setConnectionManager(cm).build();
+        if (timeoutInSec == null){
+            this.client = HttpClients.custom().setConnectionManager(cm).build();
+            return;
+        }
+
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(timeoutInSec * 1000)
+                .setConnectionRequestTimeout(timeoutInSec * 1000)
+                .setSocketTimeout(timeoutInSec * 1000).build();
+        this.client = HttpClients.custom().setDefaultRequestConfig(config).setConnectionManager(cm).build();
 
     }
 
